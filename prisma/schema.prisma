@@ -112,6 +112,9 @@ model Advertisement{
 
   imageUrl String
 
+  AdpositionId String
+  AdPosition Adposition @relation(fields: [AdpositionId],references: [id])
+
   AdbannerId String
   AdBanner Adbanner @relation(fields: [AdbannerId],references: [id])
 
@@ -132,6 +135,15 @@ model Advertisement{
   // @@index([AdTypeId])
   // @@index([AdSizeId])
   // @@index([userId])
+}
+model Adposition{
+  id String @id @default(uuid())
+  name String
+
+  AdPrice AdPrice[] @relation("AdPositionToAdPrice")
+
+  advertisement Advertisement[]
+
 }
 
 model Adbanner{
@@ -157,9 +169,9 @@ model Adduration{
 
 model Adsize{
  id String @id @default(uuid())
- name String
- height String
- width String
+//  name String
+ height Int
+ width Int
 
  AdBannerId String
  AdBanner Adbanner @relation("AdBannerToAdSize", fields: [AdBannerId], references:[id])
@@ -181,7 +193,10 @@ model Adtype{
 
 model AdPrice{
   id String @id @default(uuid())
-  price String
+  price Int
+
+  AdpositionId String
+  AdPosition Adposition @relation("AdPositionToAdPrice", fields: [AdpositionId],references: [id])
 
   AdbannerId String
   AdBanner Adbanner @relation("AdBannerToAdPrice", fields: [AdbannerId],references: [id])

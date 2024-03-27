@@ -12,19 +12,6 @@ import r5logo from "@/public/img/r5logo.png";
 
 const sideBarList = [
   {
-    title: "Website",
-    paths: [
-      {
-        name: "Testimonial",
-        location: "/testimonial",
-      },
-      {
-        name: "Advertisement",
-        location: "/advertisements",
-      },
-    ],
-  },
-  {
     title: "Master",
     paths: [
       {
@@ -50,6 +37,19 @@ const sideBarList = [
       {
         name: "Size",
         location: "/size",
+      },
+    ],
+  },
+  {
+    title: "Website",
+    paths: [
+      {
+        name: "Testimonial",
+        location: "/testimonial",
+      },
+      {
+        name: "Advertisement",
+        location: "/advertisements",
       },
     ],
   },

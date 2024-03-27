@@ -22,15 +22,15 @@ export const getsubsubcategory = async (
 
 // export default getsubsubcategory;
 
-// export const getsubsubcategories = async () => {
-//   try {
-//     const response = await fetch(`/api/subsubcategory`);
-//     const subsubcategory = await response.json();
+export const getsubsubcategories = async () => {
+  try {
+    const response = await fetch(`/api/subsubcategory`);
+    const subsubcategory = await response.json();
 
-//     return subsubcategory;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+    return subsubcategory;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // export default getsubsubcategories;

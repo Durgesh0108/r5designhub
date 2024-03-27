@@ -5,20 +5,15 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { name, AdBannerId, height, width } = body;
-    console.log("body", body);
+    const { name } = body;
 
-    const AdSize = await prismadb.adsize.create({
+    const Adposition = await prismadb.adposition.create({
       data: {
-        
-        AdBannerId: AdBannerId,
-        height: height,
-        width: width,
+        name: name,
       },
     });
-
-    console.log("Adsize",AdSize);
-    return NextResponse.json(AdSize);
+    // console.log("Ad Banner Api:", Adbanner);
+    return NextResponse.json(Adposition);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }
@@ -26,13 +21,13 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const AdSize = await prismadb.adsize.findMany({
+    const Adposition = await prismadb.adposition.findMany({
       include: {
-        AdBanner: true,
         AdPrice: true,
       },
     });
-    return NextResponse.json(AdSize);
+    // console.log("banner Api:", adbanners);
+    return NextResponse.json(Adposition);
   } catch (error) {
     return new NextResponse("Internal Error", { status: 500 });
   }

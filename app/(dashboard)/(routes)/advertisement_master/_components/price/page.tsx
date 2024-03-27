@@ -5,7 +5,7 @@ import prismadb from "@/lib/prisma";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { Adbanner, Adsize, Category, Subcategory } from "@prisma/client";
+import { Adbanner, Adposition, Adsize, Category, Subcategory } from "@prisma/client";
 import { getCategory } from "@/actions/getCategories";
 import { getsubcategory } from "@/actions/getSubcategories";
 import getsubcatgeorybycategory from "@/actions/getsubcategorybycategory";
@@ -33,20 +33,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { getAdBanners } from "@/actions/advertisements/adbanner/getAdbanner";
 import getAdsizebyAdBanner from "@/actions/advertisements/adsize/getAdSizeByAdBanner";
 import { getAdSize } from "@/actions/advertisements/adsize/getAdSize";
+import { getAdPosition } from "@/actions/advertisements/adposition/getAdPosition";
 
 const formSchema = z.object({
-  // name: z.string().min(2),
-  height: z.coerce.number().min(1),
-  width: z.coerce.number().min(1),
-  // AdBannerId: z.string().min(1),
+  price: z.coerce.number().min(1),
 });
 
-type AdSizeFormValues = z.infer<typeof formSchema>;
+type AdPriceFormValues = z.infer<typeof formSchema>;
 
 export default function AdSizePage() {
   const [adBanner, setAdBanner] = useState<Adbanner[]>([]);
   const [adsize, setAdSize] = useState<Adsize[]>([]);
-  const [selectedAdBanner, setSelectedAdBanner] = useState<string | undefined>(
+  const [adPosition, setAdPosition] = useState<Adposition[]>([]);
+  const [selectedAdBanner, setSelectedAdBanner] = useState<string>(
+    ""
+  );
+  const [selectedAdPosition, setSelectedAdPosition] = useState<string>(
     ""
   );
 
@@ -59,7 +61,7 @@ export default function AdSizePage() {
 
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<AdSizeFormValues>({
+  const form = useForm<AdPriceFormValues>({
     resolver: zodResolver(formSchema),
     // defaultValues: {
     //   // name: "",
@@ -68,7 +70,7 @@ export default function AdSizePage() {
     // },
   });
 
-  const handleSubmit = async (values: AdSizeFormValues) => {
+  const handleSubmit = async (values: AdPriceFormValues) => {
     // let name = nameRef.current?.value;
     let height = heightRef.current?.value;
     let width = widthRef.current?.value;
@@ -76,9 +78,9 @@ export default function AdSizePage() {
     try {
       setLoading(true);
       const data = {
-        // name,
-        height: values.height,
-        width: values.width,
+        price: values.price,
+        // height: values.height,
+        // width: values.width,
         AdBannerId: selectedAdBanner,
       };
       console.log("input", data);
@@ -92,6 +94,16 @@ export default function AdSizePage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const fetchAdPositions = async () => {
+      const data = await getAdPosition();
+      console.log("adPosition", data);
+      setAdPosition(data);
+    };
+
+    fetchAdPositions();
+  }, []);
 
   useEffect(() => {
     const fetchAdBanners = async () => {
@@ -123,6 +135,8 @@ export default function AdSizePage() {
     fetchAdSize();
   }, [selectedAdBanner]);
 
+
+
   const handleAdBannerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log(e.target.value);
     setSelectedAdBanner(e.target.value);
@@ -150,33 +164,14 @@ export default function AdSizePage() {
               <div className="md:grid gap-8">
                 <FormField
                   control={form.control}
-                  name="height"
+                  name="price"
                   render={({ field }) => (
                     <FormItem>
                       {/* <FormLabel>Name</FormLabel> */}
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Height"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="md:grid gap-8">
-                <FormField
-                  control={form.control}
-                  name="width"
-                  render={({ field }) => (
-                    <FormItem>
-                      {/* <FormLabel>Name</FormLabel> */}
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Width"
+                          placeholder="Price"
                           {...field}
                         />
                       </FormControl>
