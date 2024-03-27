@@ -11,12 +11,14 @@ export async function GET(
       addurationId: string;
       adsizeId: string;
       adtypeId: string;
+      adpositionId: string;
     };
   }
 ) {
   try {
     const adPrice = await prismadb.adPrice.findMany({
       where: {
+        AdpositionId: params.adpositionId,
         AdbannerId: params.adbannerId,
         AdDurationId: params.addurationId,
         AdTypeId: params.adtypeId,

@@ -208,17 +208,17 @@ export default function ServiceSubcategoryPage() {
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex justify-between items-center mb-4 lg">
-        <h1 className="text-2xl font-semibold">Sub Category</h1>
-        {!isEditing && (
-          <Button className="flex" onClick={() => setIsEditing(true)}>
-            <Plus />
-            New
-          </Button>
-        )}
-      </div>
-      {/* {isEditing && (
+		<div className="flex flex-col gap-8">
+			<div className="flex justify-between items-center mb-4 lg">
+				<h1 className="text-2xl font-semibold">Sub Category</h1>
+				{!isEditing && (
+					<Button className="flex" onClick={() => setIsEditing(true)}>
+						<Plus />
+						New
+					</Button>
+				)}
+			</div>
+			{/* {isEditing && (
         <div>
           <form action="">
             <Input
@@ -248,62 +248,69 @@ export default function ServiceSubcategoryPage() {
           </form>
         </div>
       )} */}
-      {isEditing && (
-        <div className="mb-4">
-          <form className="space-y-4 w-full">
-            <div className="md:grid gap-8">
-              <Input
-                disabled={loading}
-                placeholder="Sub Category name"
-                ref={inputref}
-              />
-            </div>
-            <div className="flex justify-end">
-              <div className="flex gap-2">
-                <Button
-                  disabled={loading}
-                  className="ml-auto"
-                  type="submit"
-                  onClick={handleSubmit}
-                >
-                  Save
-                </Button>
-                <Button
-                  disabled={loading}
-                  className="ml-auto"
-                  variant="destructive"
-                  type="button"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          </form>
-        </div>
-      )}
-      <div>
-        <select
-          name="category"
-          id="category"
-          className="border-2 p-2 rounded-lg hover:ring hover:ring-gray-800 "
-          onChange={handleCategoryChange}
-        >
-          {categories.map((category) => (
-            <option value={category.id} key={category.id} className="px-4 py-1">
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      {subcategories.length === 0 && <p>No Sub Categories</p>}
-      {subcategories.length > 0 && (
-        <div>
-          {subcategories.map((subcategory) => (
-            <li key={subcategory.id}>{subcategory.name}</li>
-          ))}
-        </div>
-      )}
-    </div>
+			{isEditing && (
+				<div className="mb-4">
+					<form className="space-y-4 w-full">
+						<div className="md:grid gap-8">
+							<Input
+								disabled={loading}
+								placeholder="Sub Category name"
+								ref={inputref}
+							/>
+						</div>
+						<div className="flex justify-end">
+							<div className="flex gap-2">
+								<Button
+									disabled={loading}
+									className="ml-auto"
+									type="submit"
+									onClick={handleSubmit}
+								>
+									Save
+								</Button>
+								<Button
+									disabled={loading}
+									className="ml-auto"
+									variant="destructive"
+									type="button"
+									onClick={() => setIsEditing(false)}
+								>
+									Cancel
+								</Button>
+							</div>
+						</div>
+					</form>
+				</div>
+			)}
+			<div>
+				<select
+					name="category"
+					id="category"
+					className="ring-2 ring-black p-2 rounded-lg hover:ring hover:ring-gray-800"
+					onChange={handleCategoryChange}
+				>
+					{categories.length === 0 && (
+						<option>No Category Available</option>
+					)}
+					{categories.map((category) => (
+						<option
+							value={category.id}
+							key={category.id}
+							className="px-4 py-1"
+						>
+							{category.name}
+						</option>
+					))}
+				</select>
+			</div>
+			{subcategories.length === 0 && <p>No Sub Categories</p>}
+			{subcategories.length > 0 && (
+				<div>
+					{subcategories.map((subcategory) => (
+						<li key={subcategory.id}>{subcategory.name}</li>
+					))}
+				</div>
+			)}
+		</div>
   );
 }

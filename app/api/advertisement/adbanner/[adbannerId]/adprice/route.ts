@@ -8,9 +8,9 @@ export async function GET(
   }: {
     params: {
       adbannerId: string;
-      //   addurationId: string;
-      //   adsizeId: string;
-      //   adtypeId: string;
+        // addurationId: string;
+        // adsizeId: string;
+        // adtypeId: string;
     };
   }
 ) {
