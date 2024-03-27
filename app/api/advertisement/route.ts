@@ -5,18 +5,20 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { userId, imageUrl, AdDurationId, AdSizeId, AdTypeId, AdBannerId } =
+    const { userId, price ,imageUrl, AdDurationId, AdpositionId, AdSizeId, AdTypeId, AdbannerId } =
       body;
 
     console.log("body", body);
     const advertisement = await prismadb.advertisement.create({
       data: {
         userId,
+        price,
         imageUrl,
-        AdbannerId: AdBannerId,
+        AdbannerId,
         AdDurationId: AdDurationId,
         AdSizeId: AdSizeId,
         AdTypeId: AdTypeId,
+        AdpositionId
       },
     });
 

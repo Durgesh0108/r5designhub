@@ -109,6 +109,7 @@ model Advertisement{
   id String @id @default(uuid()) 
   userId String 
   user User @relation(fields: [userId], references: id)
+  price Int
 
   imageUrl String
 
