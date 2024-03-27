@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     const {
-      userId,
+      // userId,
       imageUrl,
       categoryId,
       subcategoryId,
@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     // console.log("body", body);
     const brand = await prismadb.brands.create({
       data: {
-        userId,
+        // userId,
         name,
         imageUrl,
         categoryId,
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
   try {
     const brands = await prismadb.brands.findMany({
       include: {
-        user: true,
+        // user: true,
         category: true,
         subcategory: true,
         subsubcategory: true,

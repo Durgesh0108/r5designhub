@@ -70,7 +70,7 @@ model User{
 
   testimonial Testimonial[] 
   advertisements Advertisement[]
-  brands Brands[] @relation("userToBrands")
+  // brands Brands[] @relation("userToBrands")
 }
 
 model ServiceCategory{
@@ -215,8 +215,8 @@ model AdPrice{
 model Brands{
   id String @id @default(uuid())
   name String
-  userId String
-  user User @relation("userToBrands",fields: [userId], references: id)
+  // userId String
+  // user User @relation("userToBrands",fields: [userId], references: id)
 
   imageUrl String
 
@@ -230,7 +230,7 @@ model Brands{
   subsubcategoryId String
   subsubcategory Subsubcategory @relation("SubsubcategoryToBrand", fields: [subsubcategoryId], references: [id])
 
-  @@index([userId])
+  // @@index([userId])
   @@index([categoryId])
   @@index([subcategoryId])
   @@index([subsubcategoryId])

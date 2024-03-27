@@ -49,8 +49,8 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { getCategory } from "@/actions/getCategories";
 import { Category } from "@prisma/client";
-import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
@@ -73,8 +73,8 @@ export default function CategoryPage() {
   const params = useParams();
   const router = useRouter();
 
-  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
 
