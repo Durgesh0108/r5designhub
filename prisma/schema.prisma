@@ -1,0 +1,237 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category{
+  id String @id @default(uuid()) 
+  name String
+
+  subcategory Subcategory[] @relation("CategoryToSubcategory")
+  subsubcategory Subsubcategory[] @relation("CategoryToSubsubCategory")
+  brands Brands[] @relation("CategoryToBrand")
+  size Size[] @relation("CategoryToSize")
+}
+
+model Subcategory{
+  id String @id @default(uuid())
+  name String
+
+  categoryId String
+  category Category @relation("CategoryToSubcategory", fields: [categoryId], references: [id])
+
+  subsubcategory Subsubcategory[] @relation("SubcategoryToSubsubCategory")
+  brands Brands[] @relation("SubcategoryToBrand")
+
+  @@index([categoryId])
+}
+
+model Subsubcategory{
+  id String @id @default(uuid())
+  name String
+
+ categoryId String
+  category Category @relation("CategoryToSubsubCategory", fields: [categoryId], references: [id])
+
+
+  subcategoryId String
+  subcategory Subcategory @relation("SubcategoryToSubsubCategory", fields: [subcategoryId], references: [id])
+
+  brands Brands[] @relation("SubsubcategoryToBrand")
+
+  @@index([categoryId])
+  @@index([subcategoryId])
+}
+
+model Product{
+  id String @id @default(uuid())
+  name String 
+  description String?
+  price Int
+  imageUrl String?
+}
+
+model User{
+  id String @id @default(uuid()) 
+  name String
+  phone_number String
+  email String @unique
+  password String
+
+  testimonial Testimonial[] 
+  advertisements Advertisement[]
+  brands Brands[] @relation("userToBrands")
+}
+
+model ServiceCategory{
+  id String @id @default(uuid()) 
+  name String
+
+  servicesubcategory ServiceSubcategory[] @relation("ServiceCategoryToServiceSubcategory")
+}
+
+model ServiceSubcategory{
+  id String @id @default(uuid())
+  name String
+
+  servicecategoryId String
+  servicecategory ServiceCategory @relation("ServiceCategoryToServiceSubcategory", fields: [servicecategoryId], references: [id])
+
+
+
+  @@index([servicecategoryId])
+}
+
+model Testimonial{
+  id String @id @default(uuid())
+  userId String
+  review String
+  companyName String? 
+  isPending Boolean @default(true)
+  isApproved Boolean @default(false)
+  show Boolean @default(false)
+
+  user User @relation(fields: [userId], references: id)
+  @@index([userId])
+}
+
+model Advertisement{
+  id String @id @default(uuid()) 
+  userId String 
+  user User @relation(fields: [userId], references: id)
+
+  imageUrl String
+
+  AdbannerId String
+  AdBanner Adbanner @relation(fields: [AdbannerId],references: [id])
+
+  AdDurationId String
+  AdDuration Adduration @relation(fields: [AdDurationId],references: [id])
+
+  AdSizeId String
+  AdSize Adsize @relation( fields: [AdSizeId],references: [id]) 
+
+  AdTypeId String
+  AdType Adtype @relation(fields: [AdTypeId], references: [id])
+
+  // AdPriceId String
+  // AdPrice AdPrice @relation(fields: [AdPriceId], references: [id])
+
+  // @@index([AdbannerId])
+  // @@index([AdDurationId])
+  // @@index([AdTypeId])
+  // @@index([AdSizeId])
+  // @@index([userId])
+}
+
+model Adbanner{
+  id String @id @default(uuid())
+  name String
+
+  AdSize Adsize[] @relation("AdBannerToAdSize")
+  AdType Adtype[] @relation("AdbannerToAdType")
+  AdPrice AdPrice[] @relation("AdBannerToAdPrice")
+
+  advertisement Advertisement[]
+
+}
+
+model Adduration{
+  id String @id @default(uuid())
+  name String
+  value Int
+
+  AdPrice AdPrice[] @relation("AdDurationToAdPrice")
+  advertisement Advertisement[]
+}
+
+model Adsize{
+ id String @id @default(uuid())
+ name String
+ height String
+ width String
+
+ AdBannerId String
+ AdBanner Adbanner @relation("AdBannerToAdSize", fields: [AdBannerId], references:[id])
+
+ AdPrice AdPrice[] @relation("AdSizeToAdPrice")
+ advertisement Advertisement[]
+}
+
+model Adtype{
+  id String @id @default(uuid())
+  name String
+
+  AdbannerId String
+  AdBanner Adbanner @relation("AdbannerToAdType", fields: [AdbannerId], references: [id])
+
+  AdPrice AdPrice[] @relation("AdTypeToAdPrice")
+  advertisement Advertisement[]
+}
+
+model AdPrice{
+  id String @id @default(uuid())
+  price String
+
+  AdbannerId String
+  AdBanner Adbanner @relation("AdBannerToAdPrice", fields: [AdbannerId],references: [id])
+
+  AdDurationId String
+  AdDuration Adduration @relation("AdDurationToAdPrice", fields: [AdDurationId],references: [id])
+
+  AdSizeId String
+  AdSize Adsize @relation("AdSizeToAdPrice", fields: [AdSizeId],references: [id]) 
+
+  AdTypeId String
+  AdType Adtype @relation("AdTypeToAdPrice", fields: [AdTypeId], references: [id])
+  // advertisement Advertisement[]
+}
+
+model Brands{
+  id String @id @default(uuid())
+  name String
+  userId String
+  user User @relation("userToBrands",fields: [userId], references: id)
+
+  imageUrl String
+
+ categoryId String
+  category Category @relation("CategoryToBrand", fields: [categoryId], references: [id])
+
+
+  subcategoryId String
+  subcategory Subcategory @relation("SubcategoryToBrand", fields: [subcategoryId], references: [id])
+
+  subsubcategoryId String
+  subsubcategory Subsubcategory @relation("SubsubcategoryToBrand", fields: [subsubcategoryId], references: [id])
+
+  @@index([userId])
+  @@index([categoryId])
+  @@index([subcategoryId])
+  @@index([subsubcategoryId])
+}
+
+model Colors{
+  id String @id @default(uuid())
+  name String
+  hexcode String
+}
+
+model Size{
+  id String @id @default(uuid())
+  name String
+  // value String
+
+  categoryId String
+  category Category @relation("CategoryToSize", fields: [categoryId], references: [id])
+}
