@@ -328,7 +328,7 @@ export default function TestimonialPage() {
           <Card className="p-4  flex flex-col gap-4">
             {pendingtestimonials.length === 0 && <p>No Pending testimonial</p>}
             {pendingtestimonials.map((testimonial) => (
-              <li
+              <div
                 key={testimonial.id}
                 className="bg-white shadow-lg border-black border-2 rounded-md p-4"
               >
@@ -356,7 +356,7 @@ export default function TestimonialPage() {
                   </div>
                   {testimonial.review}
                 </div>
-              </li>
+              </div>
             ))}
           </Card>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -367,7 +367,7 @@ export default function TestimonialPage() {
                 </p>
               )}
               {showingTestimonial.map((testimonial) => (
-                <li
+                <div
                   key={testimonial.id}
                   className="bg-white shadow-lg border-black border-2 rounded-md p-4"
                 >
@@ -391,13 +391,13 @@ export default function TestimonialPage() {
                     </div>
                     {testimonial.review}
                   </div>
-                </li>
+                </div>
               ))}
             </Card>
             <Card className="p-4  flex flex-col gap-4">
               {hiddenTestimonial.length === 0 && <p>No Hidden Testimonial</p>}
               {hiddenTestimonial.map((testimonial) => (
-                <li
+                <div
                   key={testimonial.id}
                   className="bg-white shadow-lg border-black border-2 rounded-md p-4"
                 >
@@ -421,7 +421,7 @@ export default function TestimonialPage() {
                     </div>
                     {testimonial.review}
                   </div>
-                </li>
+                </div>
               ))}
             </Card>
           </div>
