@@ -69,7 +69,7 @@ export default function AdDurationPage() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">Ad Duration</h1>
         {!isEditing && (
