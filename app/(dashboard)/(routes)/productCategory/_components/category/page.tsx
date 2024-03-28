@@ -63,6 +63,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Header from "@/components/ui/header";
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -113,7 +114,8 @@ export default function CategoryPage() {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Category</h1>
+        {/* <h1 className="text-2xl font-semibold">Category</h1> */}
+        <Header>Category</Header>
         {!isEditing && (
           <Button className="flex" onClick={() => setIsEditing(true)}>
             <Plus />
@@ -149,7 +151,7 @@ export default function CategoryPage() {
               </div>
               <div className="flex justify-end">
                 <div className="flex gap-2">
-                  <Button disabled={loading} className="ml-auto" type="submit">
+                  <Button disabled={loading} className="ml-auto" type="submit" variant={"success"}>
                     Save
                   </Button>
                   <Button

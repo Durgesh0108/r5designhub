@@ -17,7 +17,7 @@ const sideBarList = [
     title: "Master",
     paths: [
       {
-        name: "Products Category",
+        name: "Products Master",
         location: "/productCategory",
       },
       {
@@ -27,10 +27,6 @@ const sideBarList = [
       {
         name: "Advertisement",
         location: "/advertisement_master",
-      },
-      {
-        name: "Brands",
-        location: "/brands",
       },
       {
         name: "Colors",
@@ -52,6 +48,10 @@ const sideBarList = [
       {
         name: "Advertisement",
         location: "/advertisements",
+      },
+      {
+        name: "Brands",
+        location: "/brands",
       },
     ],
   },
@@ -95,7 +95,7 @@ export default function Sidebar() {
                 </AccordionTrigger>
                 {item.paths.map((list) => (
                   <Link href={list.location} key={list.name} className="">
-                    <AccordionContent className="before:content-['-'] before:mx-2 hover:ml-6 hover:text-yellow-400 hover:bold transition-all ml-4">
+                    <AccordionContent className="before:content-['-'] before:mx-2 hover:ml-2 hover:text-yellow-400 hover:bold transition-all ml-1">
                       {list.name}
                     </AccordionContent>
                   </Link>

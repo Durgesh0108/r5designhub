@@ -17,7 +17,7 @@ export default function DashBoardLayout({
   return (
     // <Provider store={store}>
     <div className="flex">
-      <div className="bg-[#222b40] w-3/12">
+      <div className="bg-[#222b40] max-w-2/12 min-w-[230px]">
         {/* <div className="w-3/12"> */}
         <Sidebar />
       </div>

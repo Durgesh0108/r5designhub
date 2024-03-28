@@ -126,7 +126,7 @@ export default function AdDurationPage() {
               </div>
               <div className="flex justify-end">
                 <div className="flex gap-2">
-                  <Button disabled={loading} className="ml-auto" type="submit">
+                  <Button disabled={loading} className="ml-auto" type="submit" variant={"success"}>
                     Save
                   </Button>
                   <Button

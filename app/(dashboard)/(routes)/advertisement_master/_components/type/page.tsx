@@ -150,6 +150,7 @@ export default function AdTypePage() {
                   className="ml-auto"
                   type="submit"
                   onClick={handleSubmit}
+                  variant={"success"}
                 >
                   Save
                 </Button>
@@ -167,7 +168,8 @@ export default function AdTypePage() {
           </form>
         </div>
       )}
-      <div>
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> */}
+      <div className="">
         <select
           name="category"
           id="category"

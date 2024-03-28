@@ -285,6 +285,7 @@ export default function AdSizePage() {
 										disabled={loading}
 										className="ml-auto"
 										type="submit"
+										variant={"success"}
 									>
 										Save
 									</Button>

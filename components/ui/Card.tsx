@@ -8,7 +8,9 @@ export default function Card({
   className: String;
 }) {
   return (
-    <div className={`bg-white rounded-lg shadow-lg  ${className}`}>
+    <div
+      className={`bg-white rounded-lg shadow-lg overflow-hidden  ${className}`}
+    >
       {children}
     </div>
   );
