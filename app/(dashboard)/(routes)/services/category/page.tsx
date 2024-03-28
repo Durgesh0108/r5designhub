@@ -1,10 +1,53 @@
+// "use client";
+
+// import React, { useEffect, useState } from "react";
+// import Link from "next/link";
+// import { Button } from "@/components/ui/button";
+// import { Plus } from "lucide-react";
+// import { getCategory } from "@/actions/getCategories";
+// import { Category } from "@prisma/client";
+
+// export default function CategoryPage() {
+//   const [categories, setCategories] = useState<Category[]>([]);
+
+//   const [isEditing, setIsEditing] = useState(false);
+//   useEffect(() => {
+//     const fetchCategories = async () => {
+//       const data = await getCategory();
+//       setCategories(data);
+//     };
+
+//     fetchCategories();
+//   }, []);
+
+//   return (
+//     <div>
+//       <div className="flex justify-between items-center mb-4">
+//         <h1>Category</h1>
+
+//         <Link href={"/category/new"}>
+//           <Button className="flex" onClick={() => setIsEditing(true)}>
+//             <Plus />
+//             New
+//           </Button>
+//         </Link>
+//       </div>
+
+//       {categories.length === 0 && <p>No Categories</p>}
+//       {categories.map((category) => (
+//         <li key={category.id}>{category.name}</li>
+//       ))}
+//     </div>
+//   );
+// }
+
 "use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Adbanner, Adposition } from "@prisma/client";
+import { ServiceCategory } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,36 +62,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getAdBanners } from "@/actions/advertisements/adbanner/getAdbanner";
-import { getAdPosition } from "@/actions/advertisements/adposition/getAdPosition";
+import { getServiceCategory } from "@/actions/getServiceCategory";
 
 const formSchema = z.object({
   name: z.string().min(2),
 });
 
-type AdPositionFormValue = z.infer<typeof formSchema>;
-export default function AdPositionPage() {
+type ServiceCategoryFormValues = z.infer<typeof formSchema>;
+export default function ServiceCategoryPage() {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [adPosition, setAdPosition] = useState<Adposition[]>([]);
+  const [categories, setCategories] = useState<ServiceCategory[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<AdPositionFormValue>({
+  const form = useForm<ServiceCategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  const onSubmit = async (data: AdPositionFormValue) => {
+  const onSubmit = async (data: ServiceCategoryFormValues) => {
     try {
       setLoading(true);
       console.log(data);
-      await axios.post(`/api/advertisement/adposition`, data);
+      await axios.post(`/api/service/category`, data);
       router.refresh();
+      // router.push(`/category`);
       // toast.success(toastMessage);
     } catch (error: any) {
       console.log(error);
@@ -59,19 +102,18 @@ export default function AdPositionPage() {
   };
 
   useEffect(() => {
-    const fetchAdPositions = async () => {
-      const data = await getAdPosition();
-      console.log("adPosition", data);
-      setAdPosition(data);
+    const fetchServiceCategories = async () => {
+      const data = await getServiceCategory();
+      setCategories(data);
     };
 
-    fetchAdPositions();
+    fetchServiceCategories();
   }, []);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Ad Position</h1>
+        <h1 className="text-2xl font-semibold">Category</h1>
         {!isEditing && (
           <Button className="flex" onClick={() => setIsEditing(true)}>
             <Plus />
@@ -96,7 +138,7 @@ export default function AdPositionPage() {
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Position name"
+                          placeholder="Category name"
                           {...field}
                         />
                       </FormControl>
@@ -125,10 +167,12 @@ export default function AdPositionPage() {
           </Form>
         </div>
       )}
-      {adPosition.length === 0 && <p>No Ad Position Available</p>}
-      {adPosition.map((Position) => (
-        <li key={Position.id}>{Position.name}</li>
-      ))}
+      <div>
+        {categories.length === 0 && <p>No Categories</p>}
+        {categories.map((category) => (
+          <li key={category.id}>{category.name}</li>
+        ))}
+      </div>
     </div>
   );
 }

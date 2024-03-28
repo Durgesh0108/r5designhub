@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Adbanner } from "@prisma/client";
+import { Adbanner, Adposition } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,33 +20,34 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { getAdBanners } from "@/actions/advertisements/adbanner/getAdbanner";
+import { getAdPosition } from "@/actions/advertisements/adposition/getAdPosition";
 
 const formSchema = z.object({
   name: z.string().min(2),
 });
 
-type AdBannerFormValue = z.infer<typeof formSchema>;
-export default function AdBannerPage() {
+type AdPositionFormValue = z.infer<typeof formSchema>;
+export default function AdPositionPage() {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [adBanner, setAdBanner] = useState<Adbanner[]>([]);
+  const [adPosition, setAdPosition] = useState<Adposition[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<AdBannerFormValue>({
+  const form = useForm<AdPositionFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
     },
   });
 
-  const onSubmit = async (data: AdBannerFormValue) => {
+  const onSubmit = async (data: AdPositionFormValue) => {
     try {
       setLoading(true);
       console.log(data);
-      await axios.post(`/api/advertisement/adbanner`, data);
+      await axios.post(`/api/advertisement/adposition`, data);
       router.refresh();
       // toast.success(toastMessage);
     } catch (error: any) {
@@ -58,19 +59,19 @@ export default function AdBannerPage() {
   };
 
   useEffect(() => {
-    const fetchAdBanners = async () => {
-      const data = await getAdBanners();
-      console.log("adbanner", data);
-      setAdBanner(data);
+    const fetchAdPositions = async () => {
+      const data = await getAdPosition();
+      console.log("adPosition", data);
+      setAdPosition(data);
     };
 
-    fetchAdBanners();
+    fetchAdPositions();
   }, []);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Ad Banner</h1>
+        <h1 className="text-2xl font-semibold">Ad Position</h1>
         {!isEditing && (
           <Button className="flex" onClick={() => setIsEditing(true)}>
             <Plus />
@@ -95,7 +96,7 @@ export default function AdBannerPage() {
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Banner name"
+                          placeholder="Position name"
                           {...field}
                         />
                       </FormControl>
@@ -124,10 +125,12 @@ export default function AdBannerPage() {
           </Form>
         </div>
       )}
-      {adBanner.length === 0 && <p>No Ad Banner Available</p>}
-      {adBanner.map((Banner) => (
-        <li key={Banner.id}>{Banner.name}</li>
-      ))}
+      <div>
+        {adPosition.length === 0 && <p>No Ad Position Available</p>}
+        {adPosition.map((Position) => (
+          <li key={Position.id}>{Position.name}</li>
+        ))}
+      </div>
     </div>
   );
 }

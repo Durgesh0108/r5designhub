@@ -1,53 +1,10 @@
-// "use client";
-
-// import React, { useEffect, useState } from "react";
-// import Link from "next/link";
-// import { Button } from "@/components/ui/button";
-// import { Plus } from "lucide-react";
-// import { getCategory } from "@/actions/getCategories";
-// import { Category } from "@prisma/client";
-
-// export default function CategoryPage() {
-//   const [categories, setCategories] = useState<Category[]>([]);
-
-//   const [isEditing, setIsEditing] = useState(false);
-//   useEffect(() => {
-//     const fetchCategories = async () => {
-//       const data = await getCategory();
-//       setCategories(data);
-//     };
-
-//     fetchCategories();
-//   }, []);
-
-//   return (
-//     <div>
-//       <div className="flex justify-between items-center mb-4">
-//         <h1>Category</h1>
-
-//         <Link href={"/category/new"}>
-//           <Button className="flex" onClick={() => setIsEditing(true)}>
-//             <Plus />
-//             New
-//           </Button>
-//         </Link>
-//       </div>
-
-//       {categories.length === 0 && <p>No Categories</p>}
-//       {categories.map((category) => (
-//         <li key={category.id}>{category.name}</li>
-//       ))}
-//     </div>
-//   );
-// }
-
 "use client";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { ServiceCategory } from "@prisma/client";
+import { Adduration } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,36 +19,37 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getServiceCategory } from "@/actions/getServiceCategory";
+import { getAdDurations } from "@/actions/advertisements/adduration/getAdDurations";
 
 const formSchema = z.object({
   name: z.string().min(2),
+  value: z.coerce.number().min(1),
 });
 
-type ServiceCategoryFormValues = z.infer<typeof formSchema>;
-export default function ServiceCategoryPage() {
+type AdDurationFormValue = z.infer<typeof formSchema>;
+export default function AdDurationPage() {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState<ServiceCategory[]>([]);
+  const [adDuration, setAdDuration] = useState<Adduration[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<ServiceCategoryFormValues>({
+  const form = useForm<AdDurationFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      value: 0,
     },
   });
 
-  const onSubmit = async (data: ServiceCategoryFormValues) => {
+  const onSubmit = async (data: AdDurationFormValue) => {
     try {
       setLoading(true);
       console.log(data);
-      await axios.post(`/api/service/category`, data);
-      router.refresh();
-      // router.push(`/category`);
+      await axios.post(`/api/advertisement/adduration`, data);
+      // router.refresh();
       // toast.success(toastMessage);
     } catch (error: any) {
       console.log(error);
@@ -102,18 +60,18 @@ export default function ServiceCategoryPage() {
   };
 
   useEffect(() => {
-    const fetchServiceCategories = async () => {
-      const data = await getServiceCategory();
-      setCategories(data);
+    const fetchAdDurations = async () => {
+      const data = await getAdDurations();
+      setAdDuration(data);
     };
 
-    fetchServiceCategories();
+    fetchAdDurations();
   }, []);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Category</h1>
+        <h1 className="text-2xl font-semibold">Ad Duration</h1>
         {!isEditing && (
           <Button className="flex" onClick={() => setIsEditing(true)}>
             <Plus />
@@ -138,7 +96,26 @@ export default function ServiceCategoryPage() {
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Category name"
+                          placeholder="Duration name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="md:grid gap-8">
+                <FormField
+                  control={form.control}
+                  name="value"
+                  render={({ field }) => (
+                    <FormItem>
+                      {/* <FormLabel>Name</FormLabel> */}
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Duration Value"
                           {...field}
                         />
                       </FormControl>
@@ -167,10 +144,12 @@ export default function ServiceCategoryPage() {
           </Form>
         </div>
       )}
-      {categories.length === 0 && <p>No Categories</p>}
-      {categories.map((category) => (
-        <li key={category.id}>{category.name}</li>
-      ))}
+      <div>
+        {adDuration.length === 0 && <p>No Ad Duration Available</p>}
+        {adDuration.map((Duration) => (
+          <li key={Duration.id}>{Duration.name}</li>
+        ))}
+      </div>
     </div>
   );
 }

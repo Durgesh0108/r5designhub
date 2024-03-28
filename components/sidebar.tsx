@@ -18,27 +18,27 @@ const sideBarList = [
     paths: [
       {
         name: "Products Category",
-        location: "/dashboard/productCategory",
+        location: "/productCategory",
       },
       {
         name: "Services",
-        location: "/dashboard/services",
+        location: "/services",
       },
       {
         name: "Advertisement",
-        location: "/dashboard/advertisement_master",
+        location: "/advertisement_master",
       },
       {
         name: "Brands",
-        location: "/dashboard/brands",
+        location: "/brands",
       },
       {
         name: "Colors",
-        location: "/dashboard/colors",
+        location: "/colors",
       },
       {
         name: "Size",
-        location: "/dashboard/size",
+        location: "/size",
       },
     ],
   },
@@ -47,11 +47,11 @@ const sideBarList = [
     paths: [
       {
         name: "Testimonial",
-        location: "/dashboard/testimonial",
+        location: "/testimonial",
       },
       {
         name: "Advertisement",
-        location: "/dashboard/advertisements",
+        location: "/advertisements",
       },
     ],
   },
@@ -60,15 +60,15 @@ const sideBarList = [
     paths: [
       {
         name: "Login",
-        location: "/dashboard/login",
+        location: "/login",
       },
       {
         name: "Register",
-        location: "/dashboard/register",
+        location: "/register",
       },
       {
         name: "Logout",
-        location: "/dashboard/logout",
+        location: "/logout",
       },
     ],
   },
@@ -79,7 +79,9 @@ export default function Sidebar() {
     <>
       <div className="flex flex-col min-h-screen h-full min-w-fit border border-black p-8  text-white">
         <div className="flex gap-4 items-end">
-          <Image src={r5logo} width={50} height={50} alt="R5 Design Hub" />
+          <Link href={"/dashboard"}>
+            <Image src={r5logo} width={50} height={50} alt="R5 Design Hub" />
+          </Link>
           <h1 className="mb-2">Admin</h1>
         </div>
         <h1 className="font-bold text-[0.75rem] my-4 ">R5 Design Hub</h1>

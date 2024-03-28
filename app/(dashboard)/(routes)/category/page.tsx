@@ -167,10 +167,12 @@ export default function CategoryPage() {
           </Form>
         </div>
       )}
-      {categories.length === 0 && <p>No Categories</p>}
-      {categories.map((category) => (
-        <li key={category.id}>{category.name}</li>
-      ))}
+      <div>
+        {categories.length === 0 && <p>No Categories</p>}
+        {categories.map((category) => (
+          <li key={category.id}>{category.name}</li>
+        ))}
+      </div>
     </div>
   );
 }

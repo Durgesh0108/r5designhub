@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { Adduration } from "@prisma/client";
+import { Adbanner } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,37 +19,35 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getAdDurations } from "@/actions/advertisements/adduration/getAdDurations";
+import { getAdBanners } from "@/actions/advertisements/adbanner/getAdbanner";
 
 const formSchema = z.object({
   name: z.string().min(2),
-  value: z.coerce.number().min(1),
 });
 
-type AdDurationFormValue = z.infer<typeof formSchema>;
-export default function AdDurationPage() {
+type AdBannerFormValue = z.infer<typeof formSchema>;
+export default function AdBannerPage() {
   const params = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [adDuration, setAdDuration] = useState<Adduration[]>([]);
+  const [adBanner, setAdBanner] = useState<Adbanner[]>([]);
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const form = useForm<AdDurationFormValue>({
+  const form = useForm<AdBannerFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      value: 0,
     },
   });
 
-  const onSubmit = async (data: AdDurationFormValue) => {
+  const onSubmit = async (data: AdBannerFormValue) => {
     try {
       setLoading(true);
       console.log(data);
-      await axios.post(`/api/advertisement/adduration`, data);
-      // router.refresh();
+      await axios.post(`/api/advertisement/adbanner`, data);
+      router.refresh();
       // toast.success(toastMessage);
     } catch (error: any) {
       console.log(error);
@@ -60,18 +58,19 @@ export default function AdDurationPage() {
   };
 
   useEffect(() => {
-    const fetchAdDurations = async () => {
-      const data = await getAdDurations();
-      setAdDuration(data);
+    const fetchAdBanners = async () => {
+      const data = await getAdBanners();
+      console.log("adbanner", data);
+      setAdBanner(data);
     };
 
-    fetchAdDurations();
+    fetchAdBanners();
   }, []);
 
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Ad Duration</h1>
+        <h1 className="text-2xl font-semibold">Ad Banner</h1>
         {!isEditing && (
           <Button className="flex" onClick={() => setIsEditing(true)}>
             <Plus />
@@ -96,7 +95,7 @@ export default function AdDurationPage() {
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="Duration name"
+                          placeholder="Banner name"
                           {...field}
                         />
                       </FormControl>
@@ -104,27 +103,7 @@ export default function AdDurationPage() {
                     </FormItem>
                   )}
                 />
-                
               </div>
-              <div className="md:grid gap-8">
-              <FormField
-                  control={form.control}
-                  name="value"
-                  render={({ field }) => (
-                    <FormItem>
-                      {/* <FormLabel>Name</FormLabel> */}
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Duration Value"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                </div>
               <div className="flex justify-end">
                 <div className="flex gap-2">
                   <Button disabled={loading} className="ml-auto" type="submit">
@@ -145,10 +124,12 @@ export default function AdDurationPage() {
           </Form>
         </div>
       )}
-      {adDuration.length === 0 && <p>No Ad Duration Available</p>}
-      {adDuration.map((Duration) => (
-        <li key={Duration.id}>{Duration.name}</li>
-      ))}
+      <div>
+        {adBanner.length === 0 && <p>No Ad Banner Available</p>}
+        {adBanner.map((Banner) => (
+          <li key={Banner.id}>{Banner.name}</li>
+        ))}
+      </div>
     </div>
   );
 }
